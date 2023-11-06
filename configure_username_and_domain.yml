@@ -1,5 +1,5 @@
 ---
-- name: CONFIGURE SSH SERVER
+- name: CONFIGURE USERNAME AND
   hosts: CSR1kv
   gather_facts: false
   connection: local

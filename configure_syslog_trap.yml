@@ -1,0 +1,19 @@
+---
+- name: CONFIGURE SYSLOG TRAP
+  hosts: CSR1kv
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: SET LOGGING TRAP
+    ios_config:
+      lines:
+      - logging trap 4
+  - name: SHOW RUNNING CONFIG
+    ios_command:
+     commands:
+     - show running-config | i logging
+    register: output
+  - name: SAVE OUTPUT ./ios_configurations/
+    copy:
+      content: "{{ output.stdout[0] }}"
+      dest: "ios_configurations/Show_SYSLOG{{ inventory_hostname }}.txt"
