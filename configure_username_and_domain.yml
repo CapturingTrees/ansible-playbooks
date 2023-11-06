@@ -1,0 +1,23 @@
+---
+- name: CONFIGURE SSH SERVER
+  hosts: CSR1kv
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: SET USERNAME
+    ios_config:
+      lines:
+      - username newtestuser password notimportant
+  - name: SET DOMAIN-NAME
+    ios_config:
+      lines:
+      - ip domain-name example.netacad.com
+  - name: SHOW RUNNING CONFIG
+    ios_command:
+     commands:
+     - show running-config
+    register: output
+  - name: SAVE OUTPUT ./ios_configurations/
+    copy:
+      content: "{{ output.stdout[0] }}"
+      dest: "ios_configurations/Show_RUNNING{{ inventory_hostname }}.txt"
