@@ -1,0 +1,33 @@
+---
+- name: BASIC TROUBLESHOOTING
+  hosts: CSR1kv
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: SHOW IP ROUTES
+    ios_command:
+     commands:
+     - show ip route
+    register: output
+  - name: SAVE OUTPUT ./ios_configurations/
+    copy:
+      content: "{{ output.stdout[0] }}"
+      dest: "ios_configurations/Basic_Troubleshooting_route{{ inventory_hostname }}.txt"
+  - name: SHOW IP PROTOCOLS
+    ios_command:
+     commands:
+     - show ip protocols
+    register: output
+  - name: SAVE OUTPUT ./ios_configurations/
+    copy:
+      content: "{{ output.stdout[0] }}"
+      dest: "ios_configurations/Basic_Troubleshooting_protocols{{ inventory_hostname }}.txt"
+  - name: SHOW IPv4 INTERFACE BRIEF
+    ios_command:
+     commands:
+     - show ip interface brief
+    register: output
+  - name: SAVE OUTPUT ./ios_configurations/
+    copy:
+      content: "{{ output.stdout[0] }}"
+      dest: "ios_configurations/Basic_Troubleshooting_interface{{ inventory_hostname }}.txt"
